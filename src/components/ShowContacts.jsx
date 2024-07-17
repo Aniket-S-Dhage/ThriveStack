@@ -1,6 +1,6 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 
 const ShowContacts = () => {
 
@@ -17,6 +17,18 @@ const ShowContacts = () => {
     useEffect(()=>{
         getData()
     },[])
+
+    const nav = useNavigate()
+
+    const deleteContact = async (id) => {
+        await axios.delete(`http://localhost:8700/contacts/${id}`)
+
+        alert("Data Deleted")
+
+        getData()
+
+        nav('/show')
+    }
 
 
     return (
@@ -43,6 +55,7 @@ const ShowContacts = () => {
                                 <td>{con.address}</td>
                                 <td>
                                     <NavLink to={`/update/${con.id}`}><button className='btn btn-warning'>Update</button></NavLink>
+                                    <NavLink to={`/show/`}><button className='btn btn-warning' onClick={()=>{deleteContact(con.id)}}>Delete</button></NavLink>
                                 </td>
                             </tr>
                         ))
