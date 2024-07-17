@@ -54,8 +54,8 @@ const ShowContacts = () => {
                                 <td>{con.phone_number}</td>
                                 <td>{con.address}</td>
                                 <td>
-                                    <NavLink to={`/update/${con.id}`}><button className='btn btn-warning'>Update</button></NavLink>
-                                    <NavLink to={`/show/`}><button className='btn btn-warning' onClick={()=>{deleteContact(con.id)}}>Delete</button></NavLink>
+                                    <NavLink to={`/update/${con.id}`}><button className='btn btn-warning me-4'>Update</button></NavLink>
+                                    <NavLink to={`/show/`}><button className='btn btn-danger' onClick={()=>{deleteContact(con.id)}}>Delete</button></NavLink>
                                 </td>
                             </tr>
                         ))
