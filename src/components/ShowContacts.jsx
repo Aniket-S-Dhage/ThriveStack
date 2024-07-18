@@ -6,11 +6,14 @@ const ShowContacts = () => {
 
     const [contacts, setContacts] = useState([])
 
+    const [filterContact, setFilterContact] = useState([])
+
     const getData = async ()=> {
         const response = await axios.get("http://localhost:8700/contacts")
 
         console.log(response)
         setContacts(response.data)
+        setFilterContact(response.data)
 
     }
 
@@ -30,9 +33,33 @@ const ShowContacts = () => {
         nav('/show')
     }
 
+    const [search, setSearch] = useState('')
+
+    const makeSearch = (e) => {
+        setSearch(e)
+        // console.log(search)
+    }
+
+    const handleSearch = () => {
+
+        const searchedContacts = (s) => {
+            return ( s.name.toLowerCase().includes( search.toLowerCase() )   ||
+            s.email.toLowerCase().includes( search.toLowerCase() ) ||
+            s.address.toLowerCase().includes( search.toLowerCase() )  )
+        }
+
+        const l = contacts.filter(searchedContacts)
+
+        setFilterContact(l)
+
+    }
 
     return (
         <div className='container-fluid w-75 mx-auto m-5 p-3'>
+
+            <input value={search} onChange={(e)=>{makeSearch(e.target.value)}}/>
+            <button onClick={handleSearch}>Search</button>
+
             <table className='table table-info'>
                 <thead>
                     <tr>
@@ -46,7 +73,7 @@ const ShowContacts = () => {
                 </thead>
                 <tbody>
                     {
-                        contacts.map((con, index)=>(
+                        filterContact.map((con, index)=>(
                             <tr key={con.id} className='table-primary'>
                                 <td>{index + 1}</td>
                                 <td>{con.name}</td>
